@@ -1,32 +1,39 @@
 
 <template>
 <ul>
-    <li v-for="(product,i) in products" :key="i" :pdname="product.pdname" :pdprice="product.pdprice" :pdimage="product.pdimage">
-        <product :pdname="product.pdname" :pdprice="product.pdprice" :pdimage="product.pdimage" />
-        <div class="number"> {{ product.count }} </div>
-        <button class="remove"> Remove </button>
+    <li v-for="(product,i) in products" :key="i">
+        <div class="name">{{product.pdname}}</div>
+        <div class="price">{{product.pdprice}}</div>
+        <div class="number"> {{product.count}} </div>
+        <button @click="removeProduct(i)" class="remove" > Remove </button>
     </li>
 </ul>
 </template>
 <script>
-import Product from '@/components/Product.vue'
+
 export default {
   name: 'Cart',
   data: function(){
       return {
-          products: this.products
+          //from data this.something is referring to props
+          //from out of data if this.nameInsideOfData referring to that object in data 
+          //even if props variable and data variable have the same name
+          myProducts: this.products
       }
   },
   props:{
       products: Array
+      //prop is read-only
   } ,
   methods:{
-      removeProduct(){
-          //this.products.
-          this.$emit("cart:chage", this.products)
+      remove(index){
+          this.myProducts.splice(index, 1)
+      },
+      removeProduct(index){
+          this.remove(index)
+          this.$emit("cart:change", this.myProducts)
+          console.log(this.myProducts)
           }
-
-  },
-  components: {Product}
+    }
 }
 </script>

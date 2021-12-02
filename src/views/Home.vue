@@ -3,8 +3,8 @@
     <img alt="Vue logo" src="../assets/logo.png">
     <HelloWorld msg="Welcome to Your Vue.js App"/>
     <Product :pdname="name" :pdprice="price" @product:order="OnProductOrderEvent" />
-    <Product pdname="minh" pdprice="12" @product:order="OnProductOrderEvent" />
-    <Cart :products="products"/>
+    <Product pdname="minh" pdprice="12.1" @product:order="OnProductOrderEvent" />
+    <Cart :products="products" @cart:change="OnRemoveEvent" />
   </div>
 </template>
 
@@ -23,6 +23,9 @@ export default {
   methods:{
     OnProductOrderEvent(value){
       this.products.push(value)
+    },
+    OnRemoveEvent(value){
+      this.products = value
     }
   },
   components: {
