@@ -2,8 +2,9 @@
   <div class="home">
     <img alt="Vue logo" src="../assets/logo.png">
     <HelloWorld msg="Welcome to Your Vue.js App"/>
-    <Product :pdname="name" :pdprice="price"/>
-    <Cart />
+    <Product :pdname="name" :pdprice="price" @product:order="OnProductOrderEvent" />
+    <Product pdname="minh" pdprice="12" @product:order="OnProductOrderEvent" />
+    <Cart :products="products"/>
   </div>
 </template>
 
@@ -16,8 +17,14 @@ export default {
   name: 'Home',
   data:function(){ return {
     name:"la",
-    price: 12
+    price: 12,
+    products: []
   }},
+  methods:{
+    OnProductOrderEvent(value){
+      this.products.push(value)
+    }
+  },
   components: {
     HelloWorld,
     Product,
