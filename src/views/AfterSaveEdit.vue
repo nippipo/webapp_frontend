@@ -1,7 +1,7 @@
 <template>
   <ul>
       <li v-for="product in products" :key="product.id">
-      <Edit  :pdname="product.productsName" :pdprice="product.price" :pdcount="product.stock" :pdimage="product.imageurl" />
+      <Edit :submitChange="editProduct"  :pdname="product.productsName" :pdprice="product.price" :pdcount="product.stock" :pdimage="product.imageurl" />
       </li>
   </ul>
 </template>

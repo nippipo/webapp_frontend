@@ -36,7 +36,9 @@ export default {
       toggle: false,
     };
   },
-  props: {pdname:String,
+  props: {
+    submitChange: Function,
+    pdname:String,
           pdprice:Number,
           pdcount:Number,
           pdimage:String},

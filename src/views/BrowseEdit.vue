@@ -1,7 +1,8 @@
 <template>
   <ul>
-      <li v-for="product in products" :key="product.id"></li>
-      <edit :pdid="product.id" :pdname="product.productsName" :pdprice="product.price" :pdimage="product.imageurl" :pdcount="product.stock"/>
+      <li v-for="product in products" :key="product.id">
+      <Edit :submitChange="sellProduct" :pdid="product.id" :pdname="product.productsName" :pdprice="product.price" :pdimage="product.imageurl" :pdcount="product.stock"/>
+      </li>
   </ul>
 </template>
 
@@ -9,9 +10,11 @@
 import Edit from '@/components/Edit.vue' 
 export default {
   components: { Edit },
-  name: "UserView",
-  data: () => {
-    return {products}
+  name: "BrowseEdit",
+  data: function(){
+      return {
+
+      }
   },
   created(){
 
