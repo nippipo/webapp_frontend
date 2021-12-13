@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home.vue'
-import UserView from '../views/UserView.vue'
+import AfterSaveEdit from '../views/AfterSaveEdit.vue'
 const routes = [
   {
     path: '/',
@@ -8,9 +8,9 @@ const routes = [
     component: Home
   },
   {
-    path: '/user',
-    name: 'UserView',
-    component: UserView
+    path: '/products',
+    name: 'AfterSaveEdit',
+    component: AfterSaveEdit
 
   },
   {

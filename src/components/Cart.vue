@@ -8,6 +8,7 @@
         <button @click="removeProduct(i)" class="remove" > Remove </button>
     </li>
 </ul>
+<button @click="buy">Buy</button>
 </template>
 <script>
 
@@ -33,7 +34,10 @@ export default {
           this.remove(index)
           this.$emit("cart:change", this.myProducts)
           console.log(this.myProducts)
-          }
+      },
+      buy(){
+          
+      }
     }
 }
 </script>
