@@ -2,11 +2,11 @@
   <div class="product">
     <div>
       <div>
-        {{ pdname }}
+        {{ name }}
       </div>
 
       <div>
-        {{ pdprice }}
+        {{ price }}
       </div>
     </div>
 
@@ -17,9 +17,9 @@
 
     <div class="toggleEditBox" v-if="toggle">
       <label for="name">Change the product's name</label>
-      <input v-model="pdname" type="text" id="name" name="name" />
+      <input v-model="name" type="text" id="name" name="name" />
       <label for="price">Change the product's price</label>
-      <input v-model="pdprice" type="text" id="price" name="price" />
+      <input v-model="price" type="text" id="price" name="price" />
     </div>
 
   </div>
@@ -29,21 +29,17 @@
 <script>
 export default {
   name: "ProductAdminsView",
-  data: () => {
+  data: function(){
     return {
-      pdname: this.name,
-      pdprice: this.pdprice,
+      name: this.pdname,
+      price: this.pdprice,
       toggle: false,
     };
   },
-  props: {
-    submitChange : Function,
-    //pdid: Number,
-    pdname: String,
-    pdprice: Number,
-    pdcount: Number,
-    pdimage: String
-  },
+  props: {pdname:String,
+          pdprice:Number,
+          pdcount:Number,
+          pdimage:String},
   methods: {
     edit() {
       this.toggle = !this.toggle;
