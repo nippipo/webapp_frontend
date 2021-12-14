@@ -6,7 +6,7 @@
     {{ pdprice }}
   </h2>
   <br />
-  <img alt="Image of this product" :src="[pdimage]" />
+  <img alt="Image of this product" :src="pdimage" />
   <p>Number :{{ myProduct.count }}</p>
   <button @click="countIncrease" >+</button>
    <button @click="countDecrease" >-</button>

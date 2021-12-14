@@ -38,10 +38,13 @@ export default {
   },
   props: {
     submitChange: Function,
+    pdid: Number,
     pdname:String,
-          pdprice:Number,
-          pdcount:Number,
-          pdimage:String},
+    pdprice:Number,
+    pdcount:Number,
+    pdimage:String,
+    pddescription:String
+    },
   methods: {
     edit() {
       this.toggle = !this.toggle;

@@ -1,7 +1,7 @@
 <template>
   <ul>
       <li v-for="product in products" :key="product.id">
-      <Edit :submitChange="editProduct"  :pdname="product.productsName" :pdprice="product.price" :pdcount="product.stock" :pdimage="product.imageurl" />
+      <Edit :submitChange="editProduct" :pdid="product.id"  :pdname="product.productsName" :pdprice="product.price" :pdcount="product.stock" :pdimage="product.imageurl" />
       </li>
   </ul>
 </template>
@@ -13,7 +13,7 @@ export default {
   name: "AfterSaveEdit",
   data: function(){
      return {products:[
-      {productsName:'ala',price:23, stock:14,imageurl:''}
+      {id:1,productsName:'ala',price:23, stock:14,imageurl:'',description:"this is a dummy product"}
     ]}
   },
   created(){

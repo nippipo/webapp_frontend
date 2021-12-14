@@ -1,16 +1,13 @@
 <template>
-  <h1>
-    {{ pdname }}
-  </h1>
-  <h2>
-    {{ pdprice }}
-  </h2>
-  <br />
-  <img alt="Image of this product" :src="[pdimage]" />
-  <p>Number :{{ myProduct.count }}</p>
-  <button @click="countIncrease" >+</button>
-   <button @click="countDecrease" >-</button>
-  <button @click="buyProduct" id="add-button">Add to Cart</button>
+<div class="card mb-3">
+  <img :src="pdimage" class="card-img-top" alt="Image of this product">
+  <div class="card-body">
+    <h5 class="card-title"> {{pdname}} </h5>
+    <p class="card-text"> {{pddescription}} </p>
+    <p class="card-text">Cost: {{pdprice}} Euro </p>
+    <p class="card-text"><small class="text-muted">{{pdcount}} left</small></p>
+  </div>
+</div>
 </template>
 
 <script>
@@ -23,27 +20,18 @@ export default {
         count: 0,
         pdname: this.pdname,
         pdprice: this.pdprice,
-        pdimage: this.pdimage
+        pdimage: this.pdimage,
+        pddescription: this.pddescription
       }
     }
   },
   props: {
-    count: Number,
-    pdname: String,
-    pdprice: Number,
-    pdimage: String
-  },
-  methods: {
-    countIncrease () {
-      this.myProduct.count += 1
-    },
-    countDecrease () {
-      this.myProduct.count -= 1
-    },
-    buyProduct() {
-      if(this.myProduct.count > 0) {this.$emit("product:order",this.myProduct)}
-      if(this.myProduct.count <= 0)window.alert("cannot add to cart")
-    }
+    pdid: Number,
+    pdname:String,
+    pdprice:Number,
+    pdcount:Number,
+    pdimage:String,
+    pddescription:String
   }
 }
 </script>

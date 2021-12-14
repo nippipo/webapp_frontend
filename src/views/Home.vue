@@ -2,9 +2,12 @@
   <div class="home">
     <img alt="Vue logo" src="../assets/logo.png">
     <HelloWorld msg="Welcome to Your Vue.js App"/>
-    <Product :pdname="name" :pdprice="price" @product:order="OnProductOrderEvent" />
-    <Product pdname="minh" pdprice="12.1" @product:order="OnProductOrderEvent" />
-    <Cart :products="products" @cart:change="OnRemoveEvent" />
+    <Cart v-if="toggle" :products="products" @cart:change="OnRemoveEvent" />
+    <ul>
+      <li v-for=" product in products" :key="product.id">
+        <product :pdid="product.id"  :pdname="product.productsName" :pdprice="product.price" :pdcount="product.stock" :pdimage="product.imageurl" :pddescription="product.description"/>
+      </li>
+    </ul>
   </div>
 </template>
 
@@ -13,12 +16,15 @@
 import HelloWorld from '@/components/HelloWorld.vue'
 import Product from '@/components/Product.vue'
 import Cart from '@/components/Cart.vue'
+
 export default {
   name: 'Home',
   data:function(){ return {
-    name:"la",
-    price: 12,
-    products: []
+    toggle : false,
+    products: [{id:1,productsName:'ala',price:23, stock:14,imageurl:'https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_.jpg',description:"this is a dummy product"},
+    {id:1,productsName:'Backpack',price:113, stock:2,imageurl:'https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_.jpg',description:"this is a dummy product"},
+    {id:1,productsName:'Same as followed',price:23, stock:14,imageurl:'https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_.jpg',description:"this is a dummy product"},
+    {id:1,productsName:'sth else',price:23, stock:14,imageurl:'https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_.jpg',description:"this is a dummy product"},]
   }},
   methods:{
     OnProductOrderEvent(value){
