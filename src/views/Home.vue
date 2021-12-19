@@ -24,10 +24,7 @@ export default {
   data:function(){ return {
     toggle: false, 
     cartState: "Open Cart",
-    products: [{id:1,productsName:'ala',price:23, stock:14,imageurl:'https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_.jpg',description:"this is a dummy product"},
-    {id:1,productsName:'Backpack',price:113, stock:2,imageurl:'https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_.jpg',description:"this is a dummy product"},
-    {id:1,productsName:'Same as followed',price:23, stock:14,imageurl:'https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_.jpg',description:"this is a dummy product"},
-    {id:1,productsName:'sth else',price:23, stock:14,imageurl:'https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_.jpg',description:"this is a dummy product"},],
+    products: [],
     productsInCart: []}},
   methods:{
     OnProductOrderEvent(value){
@@ -53,9 +50,11 @@ export default {
       redirect: 'follow'
     }
 
-    fetch('http://localhost:8080/api/products/all',requestOptions)
+    fetch('http://localhost:8080/api/product/all',requestOptions)
     .then(response => response.json())
-    .then(result => console.log(result))
+    .then(result  => result.forEach(item => {
+      this.products.push(item)
+    }))
     .catch(error => console.log('error',error))
   }
 }

@@ -1,7 +1,7 @@
 <template>
   <ul>
       <li v-for="(product,i) in products" :key="i">
-      <Edit @product:edited="editProduct($event, i)" :pdid="product.id" :pddescription="product.description" :pdname="product.productsName" :pdprice="product.price" :pdcount="product.stock" :pdimage="product.imageurl" />
+      <Edit :pdid="product.id" :pddescription="product.description" :pdname="product.productsName" :pdprice="product.price" :pdcount="product.stock" :pdimage="product.imageurl" />
       </li>
   </ul>
 </template>
@@ -12,18 +12,24 @@ export default {
   components: { Edit },
   name: "AfterSaveEdit",
   data: function(){
-     return {products:[
-      {id:1 ,productsName:'ala',price:23, stock:14,imageurl:'https://fakestoreapi.com/img/61mtL65D4cL._AC_SX679_.jpg',description:"this is a dummy product to be saved in DB"}
-    ]}
+     return {products:[]}
   },
-  created(){
-
+  mounted(){
+    //id 1 
+    const endpoint= 'http://localhost:8080/api/user/1/all'
+    const requestOptions = {
+      method: 'GET',
+      redirect: 'follow'
+    }
+    fetch(endpoint, requestOptions)
+    .then(res => res.json())
+    .then(result => result.forEach(item => {
+      this.products.push(item)
+    }))
+    .catch(error => console.log('error', error))
   },
   methods: {
-    editProduct(value, index){
-      //this is for patching request not POST 
-      this.products.splice(index, 1)
-    }
+
   },
   components:{
     Edit
