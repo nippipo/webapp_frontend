@@ -2,9 +2,9 @@
 <template>
 <ul>
     <li v-for="(product,i) in products" :key="i">
-        <div class="name">{{product.pdname}}</div>
-        <div class="price">{{product.pdprice}}</div>
-        <div class="number"> {{product.count}} </div>
+        <div class="name">{{product.productsName}}</div>
+        <div class="price">{{product.price}}</div>
+        <!-- <div class="number"> {{product.count}} </div> -->
         <button @click="removeProduct(i)" class="remove" > Remove </button>
     </li>
 </ul>
@@ -34,9 +34,6 @@ export default {
           this.remove(index)
           this.$emit("cart:change", this.myProducts)
           console.log(this.myProducts)
-      },
-      buy(){
-          
       }
     }
 }
