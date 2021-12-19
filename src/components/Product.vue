@@ -5,7 +5,7 @@
     <h5 class="card-title"> {{pdname}} </h5>
     <p class="card-text"> {{pddescription}} </p>
     <p class="card-text">Cost: {{pdprice}} Euro </p>
-    <p class="card-text"><small class="text-muted">{{pdcount}} left</small></p>
+    <p class="card-text"><small class="text-muted">{{pdstock}} left</small></p>
   </div>
 </div>
 </template>
@@ -17,7 +17,6 @@ export default {
   data: function () {
     return {
       myProduct: {
-        count: 0,
         pdname: this.pdname,
         pdprice: this.pdprice,
         pdimage: this.pdimage,
@@ -29,7 +28,7 @@ export default {
     pdid: Number,
     pdname:String,
     pdprice:Number,
-    pdcount:Number,
+    pdstock:Number,
     pdimage:String,
     pddescription:String
   }

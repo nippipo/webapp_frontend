@@ -5,7 +5,7 @@
     <button type="button" @click="OnOpenCart" >{{cartState}}</button>
     <ul>
       <li v-for=" product in products" :key="product.id">
-        <product :pdid="product.id"  :pdname="product.productsName" :pdprice="product.price" :pdcount="product.stock" :pdimage="product.imageurl" :pddescription="product.description"/>
+        <product :pdid="product.id"  :pdname="product.productsName" :pdprice="product.price" :pdstock="product.stock" :pdimage="product.imageurl" :pddescription="product.description"/>
         <button type="button" id="putInCart" @click="OnProductOrderEvent(product)" > Add in Cart </button>
       </li>
     </ul>
@@ -46,6 +46,17 @@ export default {
     HelloWorld,
     Product,
     Cart
+  },
+  mounted(){
+    const requestOptions= {
+      method: 'GET',
+      redirect: 'follow'
+    }
+
+    fetch('http://localhost:8080/api/products/all',requestOptions)
+    .then(response => response.json())
+    .then(result => console.log(result))
+    .catch(error => console.log('error',error))
   }
 }
 </script>

@@ -4,7 +4,9 @@
       <div>
         {{ name }}
       </div>
-
+      <div>
+        {{ description }}
+      </div>
       <div>
         {{ price }}
       </div>
@@ -16,14 +18,21 @@
     </div>
 
     <div class="toggleEditBox" v-if="toggle">
+      <form >
       <label for="name">Change the product's name</label>
       <input v-model="name" type="text" id="name" name="name" />
       <label for="price">Change the product's price</label>
-      <input v-model="price" type="text" id="price" name="price" />
+      <input v-model="price" type="number" id="price" name="price" required/>
+      <label for="description">Change the product's description</label>
+      <input v-model="description" type="text" id="description" name="description" />
+      <label for="stock">Change the product's stock number</label>
+      <input v-model="stock" type="number" id="stock" name="stock" required/>
+      <button @click="submitChange" type="button" id="sell-button">Confirm</button>
+      </form>
     </div>
-
+ 
   </div>
-  <button @click="submitChange" type="submit" id="sell-button">Confirm</button>
+ 
 </template>
 
 <script>
@@ -31,17 +40,20 @@ export default {
   name: "ProductAdminsView",
   data: function(){
     return {
+      id: this.pdid,
       name: this.pdname,
       price: this.pdprice,
+      stock: this.pdstock,
+      image: this.pdimage,
+      description: this.pddescription,
       toggle: false,
     };
   },
   props: {
-    submitChange: Function,
     pdid: Number,
     pdname:String,
     pdprice:Number,
-    pdcount:Number,
+    pdstock:Number,
     pdimage:String,
     pddescription:String
     },
@@ -49,7 +61,10 @@ export default {
     edit() {
       this.toggle = !this.toggle;
     },
-    
+    submitChange(){
+      const editedProduct = {id:this.id, productsName: this.name,price: this.price,imageurl: this.image,stock: this.stock, description: this.description}
+      this.$emit("product:edited", editedProduct)
+    }
   }
 };
 </script>
