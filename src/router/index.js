@@ -1,6 +1,8 @@
+import { LoginCallback, navigationGuard } from '@okta/okta-vue'
 import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home.vue'
-import AfterSaveEdit from '../views/AfterSaveEdit.vue'
+import Profile from '../views/Profile.vue'
+import LoginComponent from '../components/Login'
 const routes = [
   {
     path: '/',
@@ -8,10 +10,20 @@ const routes = [
     component: Home
   },
   {
-    path: '/products',
-    name: 'AfterSaveEdit',
-    component: AfterSaveEdit
-
+    path: '/login',
+    component: LoginComponent
+  },
+  {
+    path: '/login/callback',
+    component: LoginCallback
+  },
+  {
+    path: '/profile',
+    name: 'Profile',
+    component: Profile,
+    meta: {
+      requiresAuth: true
+    }
   },
   {
     path: '/about',
@@ -28,4 +40,5 @@ const router = createRouter({
   routes
 })
 
+router.beforeEach(navigationGuard)
 export default router

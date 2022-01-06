@@ -50,7 +50,7 @@ export default {
       redirect: 'follow'
     }
 
-    fetch('http://localhost:8080/api/product/all',requestOptions)
+    fetch( process.env.VUE_APP_BACKEND_BASE_URL +'/api/product/all',requestOptions)
     .then(response => response.json())
     .then(result  => result.forEach(item => {
       this.products.push(item)

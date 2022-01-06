@@ -62,7 +62,7 @@ export default {
       this.toggle = !this.toggle;
     },
     submitChange(){
-    const endpoint= `http://localhost:8080/api/product/${this.id}/?productsName=${this.name}&price=${this.price}&description=${this.description}`
+    const endpoint=  process.env.VUE_APP_BACKEND_BASE_URL + `/api/product/${this.id}/?productsName=${this.name}&price=${this.price}&description=${this.description}`
     const requestOptions = {
       method: 'PATCH',
       redirect: 'follow'

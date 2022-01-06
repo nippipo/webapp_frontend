@@ -1,22 +1,28 @@
 <template>
+<div>
   <ul>
       <li v-for="(product,i) in products" :key="i">
       <Edit :pdid="product.id" :pddescription="product.description" :pdname="product.productsName" :pdprice="product.price" :pdcount="product.stock" :pdimage="product.imageurl" />
       </li>
   </ul>
+</div>
+  
 </template>
 
 <script>
 import Edit from '@/components/Edit.vue' 
 export default {
   components: { Edit },
-  name: "AfterSaveEdit",
+  name: "Profile",
   data: function(){
-     return {products:[]}
+     return {
+       products:[],
+       claims: []
+     }
   },
   mounted(){
     //id 1 
-    const endpoint= 'http://localhost:8080/api/user/1/all'
+    const endpoint=  process.env.VUE_APP_BACKEND_BASE_URL `/api/product/${this.claims.email}/all`
     const requestOptions = {
       method: 'GET',
       redirect: 'follow'
@@ -29,7 +35,10 @@ export default {
     .catch(error => console.log('error', error))
   },
   methods: {
-
+    async setup(){
+      if(this.$root.authenticated)
+      this.claims = await this.$auth.getUser();
+    }
   },
   components:{
     Edit

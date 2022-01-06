@@ -1,20 +1,37 @@
 <template>
-<ul class="nav nav-tabs" id="myTab" role="tablist">
-  <li class="nav-item" role="presentation">
-  <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true"><router-link to="/">Home</router-link></button> 
+<ul class="nav nav-pills justify-content-end">
+  <li class="nav-item">
+  <router-link class="nav-link" to="/">Home</router-link>
   </li>
-  <li class="nav-item" role="presentation">
-  <button class="nav-link" id="about-tab" data-bs-toggle="tab" data-bs-target="#about" type="button" role="tab" aria-controls="about" aria-selected="false"> <router-link to="/about"> About</router-link></button> 
+  
+  <li class="nav-item">
+  <router-link class="nav-link" to="/about">About</router-link>
   </li>
-  <li class="nav-item" role="presentation">
-   <button class="nav-link" id="products-tab" data-bs-toggle="tab" data-bs-target="#products" type="button" role="tab" aria-controls="products" aria-selected="false"><router-link to="/products"> Products</router-link></button>
+
+  <li v-if="!authenticated" class="nav-item">
+  <router-link class="nav-link" to="/login">Login</router-link>
   </li>
+
+  <li v-if="authenticated" class="nav-item">
+   <a  @click="logout()" class="nav-link">Logout</a>
+  </li>
+    
+  <li  v-if="authenticated" class="nav-item dropdown" >
+      <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">{{claims.name}}</a>
+      <ul class="dropdown-menu">
+      <li><router-link class="dropdown-item" to="/profile">Browse all products and edit them</router-link></li>
+      <li><hr class="dropdown-divider"></li>
+      <li><a class="dropdown-item" href="#">Add new product</a></li>
+    </ul>
+  </li>
+
+
 </ul>
 <router-view />
 <div class="tab-content" id="myTabContent">
   <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">...</div>
   <div class="tab-pane fade" id="about" role="tabpanel" aria-labelledby="about-tab">...</div>
-  <div class="tab-pane fade" id="products" role="tabpanel" aria-labelledby="products-tab">...</div>
+  <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">...</div>
 </div>
 </template>
 
@@ -39,4 +56,34 @@
 #nav a.router-link-exact-active {
   color: #42b983;
 }
+
+
 </style>
+
+<script>
+export default {
+  name: 'app',
+  data: function () {
+    return { authenticated: false,
+    claims:'' }
+  },
+  async created () {
+    await this.isAuthenticated()
+    this.$auth.authStateManager.subscribe(this.isAuthenticated)
+    //dont do if it's authenticated 
+    this.claims = await this.$auth.getUser();
+  },
+  watch: {
+    // Everytime the route changes, check for auth status
+    '$route': 'isAuthenticated'
+  },
+  methods: {
+    async isAuthenticated () {
+      this.authenticated = await this.$auth.isAuthenticated()
+    },
+    async logout () {
+      await this.$auth.signOut()
+    }
+  }
+}
+</script>
