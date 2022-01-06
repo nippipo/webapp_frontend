@@ -17,12 +17,12 @@ export default {
   data: function(){
      return {
        products:[],
-       claims: []
+       claims: ''
      }
   },
   mounted(){
     //id 1 
-    const endpoint=  process.env.VUE_APP_BACKEND_BASE_URL `/api/product/${this.claims.email}/all`
+    const endpoint=  process.env.VUE_APP_BACKEND_BASE_URL + `/api/product/${this.claims.email}/all`
     const requestOptions = {
       method: 'GET',
       redirect: 'follow'
