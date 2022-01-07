@@ -21,7 +21,7 @@
       <ul class="dropdown-menu">
       <li><router-link class="dropdown-item" to="/profile">Browse all products and edit them</router-link></li>
       <li><hr class="dropdown-divider"></li>
-      <li><router-link class="dropdown-item" to="/newproduct">Add new product</router-link></li>
+      <li><router-link class="dropdown-item" to="/browseadd">Add new product</router-link></li>
     </ul>
   </li>
 </ul>

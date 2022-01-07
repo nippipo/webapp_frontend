@@ -27,10 +27,28 @@
       <input v-model="description" type="text" id="description" name="description" />
       <label for="stock">Change the product's stock number</label>
       <input v-model="stock" type="number" id="stock" name="stock" required/>
-      <button @click="submitChange" type="submit" id="sell-button">Confirm</button>
+      <button type="button" id="sell-button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Confirm</button>
       </form>
     </div>
- 
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">{{modalTitle}}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        {{modalBody}}
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button @click="submitChange" type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
   </div>
  
 </template>
@@ -50,23 +68,46 @@ export default {
     };
   },
   props: {
+    //equal to 0 is post, equal to 1 is put
+    postOrPut: Number,
+    modalTitle: String,
+    modalBody: String,
     pdid: Number,
-    pdname:String,
-    pdprice:Number,
-    pdstock:Number,
-    pdimage:String,
-    pddescription:String
+    pdname: String,
+    pdprice: Number,
+    pdstock: Number,
+    pdimage: String, 
+    pddescription: String, 
     },
   methods: {
     edit() {
       this.toggle = !this.toggle;
     },
     submitChange(){
-    const endpoint=  process.env.VUE_APP_BACKEND_BASE_URL + `/api/product/${this.id}/?productsName=${this.name}&price=${this.price}&description=${this.description}`
-    const requestOptions = {
-      method: 'PATCH',
-      redirect: 'follow'
+      if(this.postOrPut == 0) {
+      const product = {
+        productsName: this.name,
+        price : this.price,
+        image : this.image,
+        stock : this.stock,
+        description : this.description
+      }
+      var endpoint=  process.env.VUE_APP_BACKEND_BASE_URL + `/api/product`
+      var requestOptions = {
+      method: 'POST',
+      redirect: 'follow',
+      headers: {
+          'Content-type' : 'application/json'
+        },
+      body:JSON.stringify(product)
     }
+      }
+      else {endpoint= process.env.VUE_APP_BACKEND_BASE_URL + `/api/product/${this.id}/?productsName=${this.name}&price=${this.price}&description=${this.description}&stock=${this.stock}`
+      requestOptions = {
+      method: 'PUT',
+      redirect: 'follow'}
+      }
+      
     fetch(endpoint, requestOptions)
     .catch(error => console.log('error',error))
     }

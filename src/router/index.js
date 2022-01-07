@@ -2,8 +2,8 @@ import { LoginCallback, navigationGuard } from '@okta/okta-vue'
 import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home.vue'
 import Profile from '../views/Profile.vue'
-import LoginComponent from '../components/Login'
-import NewProduct from '../views/NewProduct.vue'
+import BrowseAdd from '@/views/BrowseAdd.vue'
+import LoginComponent from '@/components/Login'
 const routes = [
   {
     path: '/',
@@ -27,9 +27,9 @@ const routes = [
     }
   },
   {
-    path: '/newproduct',
-    name: 'NewProduct',
-    component: NewProduct,
+    path: '/browseadd',
+    name: 'BrowseAdd',
+    component: BrowseAdd,
     meta: {
       requiresAuth: true
     }

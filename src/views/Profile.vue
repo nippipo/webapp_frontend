@@ -2,7 +2,7 @@
 <div>
   <ul>
       <li v-for="(product,i) in products" :key="i">
-      <Edit :pdid="product.id" :pddescription="product.description" :pdname="product.productsName" :pdprice="product.price" :pdcount="product.stock" :pdimage="product.imageurl" />
+      <Edit :postOrPut="postOrPut" :pdid="product.id" :pddescription="product.description" :pdname="product.productsName" :pdprice="product.price" :pdcount="product.stock" :pdimage="product.image" />
       </li>
   </ul>
 </div>
@@ -16,6 +16,7 @@ export default {
   name: "Profile",
   data: function(){
      return {
+       postOrPut: 1,
        products:[],
        claims: ''
      }

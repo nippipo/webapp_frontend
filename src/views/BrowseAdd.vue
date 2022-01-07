@@ -1,0 +1,148 @@
+<template>
+  <div v-if="notChosen" class="container">
+    <div
+      id="carouselExampleCaptions"
+      class="carousel slide"
+      data-bs-ride="carousel"
+    >
+      <div>
+        <ul class="carousel-indicators">
+            <li><button type="button" data-bs-slide-to="0" data-bs-target="#carouselExampleCaptions" class="active"
+              aria-current="true"
+              aria-label="0"></button></li>
+          <li v-for="product in apiProducts" :key="product.id">
+            <button
+              type="button"
+              data-bs-target="#carouselExampleCaptions"
+              :data-bs-slide-to="product.id"
+              class="active"
+              aria-current="true"
+              :aria-label="product.id"
+            ></button>
+          </li>
+        </ul>
+      </div>
+      <div class="carousel-inner">
+        <ul>
+          <li class="carousel-item active">
+            <div>
+              <img src="src\assets\logo.png" class="d-block w-100" alt="image" />
+              <div class="carousel-caption d-none d-md-block">
+                <h5>Start swiping to see more products</h5>
+                <p>
+                  Choose product you wanna sell 
+                </p>
+              </div>
+            </div>
+          </li>
+          <li
+            v-for="product in apiProducts"
+            :key="product.id"
+            class="carousel-item"
+          >
+            <div>
+              <img :src="product.image" class="d-block w-100" alt="image" />
+              <div class="carousel-caption d-none d-md-block">
+                <h5>{{ product.title }}</h5>
+                <p>
+                  {{ product.price }}
+                </p>
+                 <button @click="onSellThisOne(product.id)" type="button" class="btn btn-primary btn-lg">Sell this one</button>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <button
+        class="carousel-control-prev"
+        type="button"
+        data-bs-target="#carouselExampleCaptions"
+        data-bs-slide="prev"
+      >
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button
+        class="carousel-control-next"
+        type="button"
+        data-bs-target="#carouselExampleCaptions"
+        data-bs-slide="next"
+      >
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
+    </div>
+  </div>
+  <Edit :modalTitle="modalTitle" :modalBody="modalBody"  v-if="!notChosen" 
+  :postOrPut="postOrPut"
+  :pdname="chosenProduct.title"
+  :pdprice="chosenProduct.price"
+  :pdimage="chosenProduct.image"
+  :pddescription="chosenProduct.description"  
+  ></Edit>
+
+</template>
+<script>
+import Edit from '@/components/Edit.vue'
+export default {
+  name: "BrowseAdd",
+  data: function () {
+    return {
+      postOrPut : 0,
+      apiProducts: [],
+      notChosen: true,
+      chosenProduct: '',
+      modalTitle: "Sell product",
+      modalBody: "Are you sure you wanna sell this product?"
+    };
+  },
+  methods: {
+    setup() {
+      fetch("https://fakestoreapi.com/products")
+        .then((res) => res.json())
+        .then((result) => (this.apiProducts = result));
+    },
+    onSellThisOne(index){
+        this.notChosen = false
+        this.chosenProduct = this.apiProducts[index-1]
+        console.log(index)
+        console.log(this.chosenProduct)
+    }
+  },
+  mounted() {
+    this.setup();
+  },
+  components: {
+      Edit
+  }
+}
+</script>
+
+<style>
+.carousel.slide {
+  background-image: black;
+  max-height:700px;
+  padding: 0;
+}
+.container {
+  justify-content: center;
+  display: flex;
+}
+
+.carousel-inner {
+    max-height : 700px;
+    max-width: 450px;
+}
+
+#carouselExampleCaptions {
+  max-width: 100%;
+  max-height: 100%;
+  margin: 0;
+}
+.carousel-caption.d-none.d-md-block {
+    color:coral;
+}
+img{
+    height: 700px
+}
+</style>
