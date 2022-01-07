@@ -17,11 +17,11 @@
   </li>
     
   <li  v-if="authenticated" class="nav-item dropdown" >
-      <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">{{claims.name}}</a>
+      <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Profile</a>
       <ul class="dropdown-menu">
       <li><router-link class="dropdown-item" to="/profile">Browse all products and edit them</router-link></li>
       <li><hr class="dropdown-divider"></li>
-      <li><a class="dropdown-item" href="#">Add new product</a></li>
+      <li><a class="dropdown-item">Add new product</a></li>
     </ul>
   </li>
 </ul>
@@ -63,14 +63,13 @@ export default {
   name: 'app',
   data: function () {
     return { authenticated: false,
-    claims:'' }
+    claims:'',
+    message: ''}
   },
   async created () {
     await this.isAuthenticated()
-    this.$auth.authStateManager.subscribe(this.isAuthenticated) 
-      //dont do if it's authenticated
-      this.claims = await this.$auth.getUser();
-  },
+    await this.$auth.authStateManager.subscribe(this.isAuthenticated) 
+   },
   
     
   
@@ -81,39 +80,11 @@ export default {
   methods: {
     async isAuthenticated () {
       this.authenticated = await this.$auth.isAuthenticated()
-      
-      // var endpoint = process.env.VUE_APP_BACKEND_BASE_URL + `/api/user/mail/${this.claims.email}`
-    // var requestOptions = {
-    //   method: 'GET',
-    //   redirect: 'follow'
-    // }
-    // await fetch(endpoint, requestOptions)
-    // .then(res => res.json())
-    // .catch((error) => {
-    //   window.alert("user not found")
-      
-    //   endpoint = process.env.VUE_APP_BACKEND_BASE_URL + `/api/user`
-    //   requestOptions = {
-    //     method: 'POST',
-    //     redirect: 'follow',
-    //     headers: {
-    //       'Content-type' : 'application/json'
-    //     },
-    //     body: JSON.stringify({'username': this.claims.name,'email':this.claims.email})
-    //   }
-    //   fetch(endpoint, requestOptions)
-    //   .then(response => response.json())
-    //   .then(data => {console.log('Success', data);
-    //   })
-    //   .catch((error) => {
-    //     console.error('Error', error)
-    //   })
-    // })
-
     },
     async logout () {
       await this.$auth.signOut()
     }
   }
 }
+//{if(json.message === 'mail not found') this.addNewUser }
 </script>

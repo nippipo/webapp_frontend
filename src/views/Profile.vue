@@ -20,7 +20,8 @@ export default {
        claims: ''
      }
   },
-  mounted(){
+ async mounted(){
+    await this.setup()
     //id 1 
     const endpoint=  process.env.VUE_APP_BACKEND_BASE_URL + `/api/product/${this.claims.email}/all`
     const requestOptions = {
