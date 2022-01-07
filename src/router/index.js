@@ -3,6 +3,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home.vue'
 import Profile from '../views/Profile.vue'
 import LoginComponent from '../components/Login'
+import NewProduct from '../views/NewProduct.vue'
 const routes = [
   {
     path: '/',
@@ -21,6 +22,14 @@ const routes = [
     path: '/profile',
     name: 'Profile',
     component: Profile,
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path: '/newproduct',
+    name: 'NewProduct',
+    component: NewProduct,
     meta: {
       requiresAuth: true
     }

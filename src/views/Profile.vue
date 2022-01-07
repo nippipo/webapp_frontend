@@ -22,8 +22,54 @@ export default {
   },
  async mounted(){
     await this.setup()
-    //id 1 
-    const endpoint=  process.env.VUE_APP_BACKEND_BASE_URL + `/api/product/${this.claims.email}/all`
+    await this.userExistedHandler()
+    await this.getUserProducts()
+    
+  },
+  methods: {
+    async setup(){
+      if(this.$root.authenticated)
+      this.claims = await this.$auth.getUser();
+    },
+    addNewUser(){
+      const user = {
+        "username" : this.claims.name,
+        "email" : this.claims.email
+      }
+      let endpoint = process.env.VUE_APP_BACKEND_BASE_URL + `/api/user`
+      let requestOptions = {
+        method: 'POST',
+        redirect: 'follow',
+        headers: {
+          'Content-type' : 'application/json'
+        },
+        body: JSON.stringify(user)
+      }
+      fetch(endpoint,requestOptions)
+      .then(res => res.json())
+      .then(data => this.user = data)
+      .catch((error) => console.error("Error", error))
+      console.log("was in new user here")
+    },
+
+    userExistedHandler(){
+      var endpoint = process.env.VUE_APP_BACKEND_BASE_URL + `/api/user/mail/${this.claims.email}`
+      var requestOptions = {
+        method: 'GET',
+        redirect: 'follow'
+      }
+      fetch(endpoint, requestOptions)
+      .then(res => res.json())
+      .then(jsonbody => this.message = jsonbody.message)
+      .catch((error) => {
+        this.addNewUser()
+        window.alert("id not found")
+        }
+        )
+      console.log("was in user existed handler")
+        },
+    getUserProducts(){
+      const endpoint=  process.env.VUE_APP_BACKEND_BASE_URL + `/api/product/${this.claims.email}/all`
     const requestOptions = {
       method: 'GET',
       redirect: 'follow'
@@ -34,11 +80,6 @@ export default {
       this.products.push(item)
     }))
     .catch(error => console.log('error', error))
-  },
-  methods: {
-    async setup(){
-      if(this.$root.authenticated)
-      this.claims = await this.$auth.getUser();
     }
   },
   components:{
