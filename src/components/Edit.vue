@@ -1,5 +1,5 @@
 <template>
-  <div class="product">
+  <div>
     <div>
       <div>
         {{ name }}
@@ -19,14 +19,23 @@
 
     <div class="toggleEditBox" v-if="toggle">
       <form >
-      <label for="name">Change the product's name</label>
-      <input v-model="name" type="text" id="name" name="name" />
+        <div class="mb-3"> 
+          <label for="name">Change the product's name</label>
+          <input v-model="name" type="text" id="name" name="name" />
+        </div>
+      <div class="mb-3">
       <label for="price">Change the product's price</label>
       <input v-model="price" type="number" step="0.01" id="price" name="price" required/>
-      <label for="description">Change the product's description</label>
+      </div>
+      <div class="mb-3">
+        <label for="description">Change the product's description</label>
       <input v-model="description" type="text" id="description" name="description" />
-      <label for="stock">Change the product's stock number</label>
+      </div>
+      <div class="mb-3">
+        <label for="stock">Change the product's stock number</label>
       <input v-model="stock" type="number" id="stock" name="stock" required/>
+      </div>
+      
       <button type="button" id="sell-button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Confirm</button>
       </form>
     </div>
@@ -132,3 +141,16 @@ export default {
   }
 };
 </script>
+<style>
+#edit{
+  position: relative;
+  max-width: 50px;
+}
+
+.image-editbutton-container{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+</style>

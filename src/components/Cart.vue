@@ -43,7 +43,8 @@ export default {
 </script>
 <style>
 li.cart{
-    width: 100%
+    width: 100%;
+    list-style-type: none;
 }
 .buyButton {
     max-width:70px;

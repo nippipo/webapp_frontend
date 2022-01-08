@@ -46,21 +46,7 @@ export default {
   max-width: 400px;
 }
 
-li{
-  list-style-type: none;
-  padding : 0;
-  margin: 0px;
-  max-width: 400px;
-}
 
-ul{
-  display: flex;
-  padding: 0;
-  margin: 0;
-  max-width: px;
-  max-height: 100%;
-  flex-wrap: wrap;
-}
 
 
 </style>

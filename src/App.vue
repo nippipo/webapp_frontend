@@ -88,7 +88,4 @@ export default {
 //{if(json.message === 'mail not found') this.addNewUser }
 </script>
 <style>
-.nav-item{
-  width: inherit
-}
 </style>
