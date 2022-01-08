@@ -73,7 +73,9 @@
       </button>
     </div>
   </div>
-  <Edit :modalTitle="modalTitle" :modalBody="modalBody"  v-if="!notChosen" 
+  <Edit
+  :userId="userId"
+  :modalTitle="modalTitle" :modalBody="modalBody"  v-if="!notChosen" 
   :postOrPut="postOrPut"
   :pdname="chosenProduct.title"
   :pdprice="chosenProduct.price"
@@ -88,6 +90,8 @@ export default {
   name: "BrowseAdd",
   data: function () {
     return {
+      claims: [],
+      userId: '',
       postOrPut : 0,
       apiProducts: [],
       notChosen: true,
@@ -97,6 +101,11 @@ export default {
     };
   },
   methods: {
+    async authCheck(){
+      if(this.$root.authenticated)
+      this.claims = await this.$auth.getUser();
+    },
+    
     setup() {
       fetch("https://fakestoreapi.com/products")
         .then((res) => res.json())
@@ -107,10 +116,18 @@ export default {
         this.chosenProduct = this.apiProducts[index-1]
         console.log(index)
         console.log(this.chosenProduct)
+    },
+    getBackendUserId(){
+        fetch(process.env.VUE_APP_BACKEND_BASE_URL + `/api/user/mail/${this.claims.email}`)
+        .then((res) => res.json())
+        .then((result) => (this.userId = result.id));
+        console.log(this.userId)
     }
   },
-  mounted() {
-    this.setup();
+  async mounted() {
+    await this.authCheck();
+    await this.setup();
+    await this.getBackendUserId();
   },
   components: {
       Edit

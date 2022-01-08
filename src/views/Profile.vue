@@ -3,6 +3,7 @@
   <ul>
       <li v-for="(product,i) in products" :key="i">
       <Edit :postOrPut="postOrPut" :pdid="product.id" :pddescription="product.description" :pdname="product.productsName" :pdprice="product.price" :pdcount="product.stock" :pdimage="product.image" />
+      <button type="button" class="btn btn-primary btn-lg">Delete this product</button>
       </li>
   </ul>
 </div>

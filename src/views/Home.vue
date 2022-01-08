@@ -5,8 +5,8 @@
     <button type="button" @click="OnOpenCart" >{{cartState}}</button>
     <ul>
       <li v-for=" product in products" :key="product.id">
-        <product :pdid="product.id"  :pdname="product.productsName" :pdprice="product.price" :pdstock="product.stock" :pdimage="product.imageurl" :pddescription="product.description"/>
-        <button type="button" id="putInCart" @click="OnProductOrderEvent(product)" > Add in Cart </button>
+        <button type="button" class="putInCart btn btn-primary" @click="OnProductOrderEvent(product)" > Add in Cart </button>
+        <product :pdid="product.id"  :pdname="product.productsName" :pdprice="product.price" :pdstock="product.stock" :pdimage="product.image" :pddescription="product.description"/>
       </li>
     </ul>
   </div>
@@ -59,3 +59,7 @@ export default {
   }
 }
 </script>
+
+<style>
+
+</style>

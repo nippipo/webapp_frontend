@@ -20,7 +20,6 @@
       <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Profile</a>
       <ul class="dropdown-menu">
       <li><router-link class="dropdown-item" to="/profile">Browse all products and edit them</router-link></li>
-      <li><hr class="dropdown-divider"></li>
       <li><router-link class="dropdown-item" to="/browseadd">Add new product</router-link></li>
     </ul>
   </li>

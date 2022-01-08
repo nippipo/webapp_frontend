@@ -44,7 +44,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button @click="submitChange" type="button" class="btn btn-primary">Save changes</button>
+        <button @click="submitChange" onclick="/browseadd" type="button" class="btn btn-primary" >Save changes</button>
       </div>
     </div>
   </div>
@@ -58,6 +58,7 @@ export default {
   name: "ProductAdminsView",
   data: function(){
     return {
+      productIdBackend: 0,
       id: this.pdid,
       name: this.pdname,
       price: this.pdprice,
@@ -68,6 +69,7 @@ export default {
     };
   },
   props: {
+    userId: Number,
     //equal to 0 is post, equal to 1 is put
     postOrPut: Number,
     modalTitle: String,
@@ -83,7 +85,7 @@ export default {
     edit() {
       this.toggle = !this.toggle;
     },
-    submitChange(){
+    async submitChange(){
       if(this.postOrPut == 0) {
       const product = {
         productsName: this.name,
@@ -92,8 +94,9 @@ export default {
         stock : this.stock,
         description : this.description
       }
-      var endpoint=  process.env.VUE_APP_BACKEND_BASE_URL + `/api/product`
-      var requestOptions = {
+      //create product
+      var endpoint1=  process.env.VUE_APP_BACKEND_BASE_URL + `/api/product`
+      var requestOptions1 = {
       method: 'POST',
       redirect: 'follow',
       headers: {
@@ -101,16 +104,31 @@ export default {
         },
       body:JSON.stringify(product)
     }
+      await fetch(endpoint1, requestOptions1)
+      .then(res => res.json())
+      .then(result => {this.productIdBackend = result.id})
+      .catch(error => console.log('error',error))
+
+      var endpoint = process.env.VUE_APP_BACKEND_BASE_URL + `/api/product/${this.productIdBackend}/${this.userId}`
+      var requestOptions= {
+        method: 'PUT',
+        redirect: 'follow'
       }
+      await fetch(endpoint, requestOptions)
+      .catch(error => console.error('error', error))
+      }
+     
+      //update product
       else {endpoint= process.env.VUE_APP_BACKEND_BASE_URL + `/api/product/${this.id}/?productsName=${this.name}&price=${this.price}&description=${this.description}&stock=${this.stock}`
       requestOptions = {
       method: 'PUT',
       redirect: 'follow'}
+      fetch(endpoint, requestOptions)
+      .catch(error => console.log('error',error))
       }
       
-    fetch(endpoint, requestOptions)
-    .catch(error => console.log('error',error))
-    }
+    
+    },
   }
 };
 </script>
