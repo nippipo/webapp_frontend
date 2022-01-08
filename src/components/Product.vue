@@ -39,7 +39,7 @@ export default {
 .card {
   width : 400px;
   height: 400px;
-  overflow: scroll;
+  overflow: auto;
 }
 
 .card-body {
@@ -50,6 +50,7 @@ li{
   list-style-type: none;
   padding : 0;
   margin: 0px;
+  max-width: 400px;
 }
 
 ul{

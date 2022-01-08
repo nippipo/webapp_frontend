@@ -2,8 +2,8 @@
 <div>
   <ul>
       <li v-for="(product,i) in products" :key="i">
-      <Edit :postOrPut="postOrPut" :pdid="product.id" :pddescription="product.description" :pdname="product.productsName" :pdprice="product.price" :pdcount="product.stock" :pdimage="product.image" />
-      <button type="button" class="btn btn-primary btn-lg">Delete this product</button>
+      <Edit :modalBody="modalBody" modalTitle="Edit" :postOrPut="postOrPut" :pdid="product.id" :pddescription="product.description" :pdname="product.productsName" :pdprice="product.price" :pdcount="product.stock" :pdimage="product.image" />
+      <button @click="deleteProduct(product)" type="button" class="btn btn-primary">Delete this product</button>
       </li>
   </ul>
 </div>
@@ -17,6 +17,7 @@ export default {
   name: "Profile",
   data: function(){
      return {
+       modalBody: "Are you sure?",
        postOrPut: 1,
        products:[],
        claims: ''
@@ -82,6 +83,17 @@ export default {
       this.products.push(item)
     }))
     .catch(error => console.log('error', error))
+    },
+    deleteProduct(item){
+      var endpoint = process.env.VUE_APP_BACKEND_BASE_URL + `/api/product/${item.id}`
+      var requestOptions = {
+        method: 'DELETE',
+        redirect: 'follow'
+      }
+      fetch(endpoint, requestOptions)
+      .then(res => res.json())
+      .catch(error => console.error('Error', error))
+      window.location.reload()
     }
   },
   components:{

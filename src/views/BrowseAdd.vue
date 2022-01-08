@@ -2,10 +2,9 @@
   <div v-if="notChosen" class="container">
     <div
       id="carouselExampleCaptions"
-      class="carousel slide"
+      class="carousel carousel-dark slide"
       data-bs-ride="carousel"
     >
-      <div>
         <ul class="carousel-indicators">
             <li><button type="button" data-bs-slide-to="0" data-bs-target="#carouselExampleCaptions" class="active"
               aria-current="true"
@@ -21,9 +20,9 @@
             ></button>
           </li>
         </ul>
-      </div>
+     
       <div class="carousel-inner">
-        <ul>
+        <ul id="ulInCarousel">
           <li class="carousel-item active">
             <div>
               <img src="src\assets\logo.png" class="d-block w-100" alt="image" />
@@ -41,13 +40,13 @@
             class="carousel-item"
           >
             <div>
+              <button @click="onSellThisOne(product.id)" type="button" class="btn btn-primary btn-lg">Sell this one</button>
               <img :src="product.image" class="d-block w-100" alt="image" />
               <div class="carousel-caption d-none d-md-block">
                 <h5>{{ product.title }}</h5>
                 <p>
                   {{ product.price }}
                 </p>
-                 <button @click="onSellThisOne(product.id)" type="button" class="btn btn-primary btn-lg">Sell this one</button>
               </div>
             </div>
           </li>
@@ -73,6 +72,7 @@
       </button>
     </div>
   </div>
+
   <Edit
   :userId="userId"
   :modalTitle="modalTitle" :modalBody="modalBody"  v-if="!notChosen" 
@@ -139,11 +139,13 @@ export default {
 .carousel.slide {
   background-image: black;
   max-height:700px;
+  max-width: 450px ;
   padding: 0;
 }
 .container {
   justify-content: center;
   display: flex;
+  max-height: 700px;
 }
 
 .carousel-inner {
@@ -160,6 +162,11 @@ export default {
     color:coral;
 }
 img{
-    height: 700px
+   max-height: 700px;
+   max-width : 450px
+}
+
+#ulInCarousel{
+    padding: 30px
 }
 </style>

@@ -121,12 +121,12 @@ export default {
       //update product
       else {endpoint= process.env.VUE_APP_BACKEND_BASE_URL + `/api/product/${this.id}/?productsName=${this.name}&price=${this.price}&description=${this.description}&stock=${this.stock}`
       requestOptions = {
-      method: 'PUT',
+      method: 'PATCH',
       redirect: 'follow'}
       fetch(endpoint, requestOptions)
       .catch(error => console.log('error',error))
       }
-      
+      window.location.reload()
     
     },
   }

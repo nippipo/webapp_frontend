@@ -1,14 +1,17 @@
-
 <template>
-<ul>
-    <li v-for="(product,i) in products" :key="i">
+<div class="container cart">
+<ul class="cart">
+    <li class="cart border border-1" v-for="(product,i) in products" :key="i">
         <div class="name">{{product.productsName}}</div>
         <div class="price">{{product.price}}</div>
         <!-- <div class="number"> {{product.count}} </div> -->
         <button @click="removeProduct(i)" class="remove" > Remove </button>
     </li>
 </ul>
-<button @click="buy">Buy</button>
+
+
+<button class="buyButton" v-if="products.length!==0" @click="buy">Buy</button></div>
+
 </template>
 <script>
 
@@ -38,3 +41,25 @@ export default {
     }
 }
 </script>
+<style>
+li.cart{
+    width: 100%
+}
+.buyButton {
+    max-width:70px;
+    padding: 0px 12px 0px 12px;
+    margin: 0px
+}
+.container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+ul.cart {
+  padding: 0px;
+  display: flex;
+  justify-content: center;
+  align-content: stretch
+}
+
+</style>
