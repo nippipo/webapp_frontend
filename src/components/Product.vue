@@ -44,6 +44,7 @@ export default {
 
 .card-body {
   max-width: 400px;
+  background-color: rgb(226, 226, 226);
 }
 
 

@@ -14,18 +14,24 @@
 
     <div class="image-editbutton-container">
       <img alt="Image of this product" :src="[pdimage]" />
-      <button @click="edit" id="edit">Edit</button>
+      <button class="btn btn-light" @click="edit" id="edit"><i class="bi bi-pencil-square"></i>  Edit</button>
     </div>
 
     <div class="toggleEditBox" v-if="toggle">
-      <form >
+      <form class="needs-validation" novalidate>
         <div class="mb-3"> 
           <label for="name">Change the product's name</label>
-          <input v-model="name" type="text" id="name" name="name" />
+          <input v-model="name" type="text" id="name" name="name" required/>
+            <div class="invalid-feedback">
+            Please choose a name for this product.
+            </div>
         </div>
       <div class="mb-3">
       <label for="price">Change the product's price</label>
       <input v-model="price" type="number" step="0.01" id="price" name="price" required/>
+            <div class="invalid-feedback">
+            Product has to have a price before being saved.
+            </div>
       </div>
       <div class="mb-3">
         <label for="description">Change the product's description</label>
@@ -34,13 +40,13 @@
       <div class="mb-3">
         <label for="stock">Change the product's stock number</label>
       <input v-model="stock" type="number" id="stock" name="stock" required/>
+            <div class="invalid-feedback">
+            Please specify how many items of this product type you can offer.
+            </div>
       </div>
       
       <button type="button" id="sell-button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Confirm</button>
-      </form>
-    </div>
-
-<!-- Modal -->
+      <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -53,11 +59,15 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button @click="submitChange" onclick="/browseadd" type="button" class="btn btn-primary" >Save changes</button>
+        <button @click="submitChange" type="submit" class="btn btn-primary">Save changes</button>
       </div>
     </div>
   </div>
 </div>
+      </form>
+    </div>
+
+
   </div>
  
 </template>
@@ -95,7 +105,10 @@ export default {
       this.toggle = !this.toggle;
     },
     async submitChange(){
-      if(this.postOrPut == 0) {
+      const valid = this.validate()
+      await console.log("validation", valid)
+      //const valid = true
+      if(this.postOrPut == 0 && valid) {
       const product = {
         productsName: this.name,
         price : this.price,
@@ -125,26 +138,50 @@ export default {
       }
       await fetch(endpoint, requestOptions)
       .catch(error => console.error('error', error))
+      await console.log("created", valid)
       }
      
       //update product
-      else {endpoint= process.env.VUE_APP_BACKEND_BASE_URL + `/api/product/${this.id}/?productsName=${this.name}&price=${this.price}&description=${this.description}&stock=${this.stock}`
+      else if(this.postOrPut == 0 && valid){endpoint= process.env.VUE_APP_BACKEND_BASE_URL + `/api/product/${this.id}/?productsName=${this.name}&price=${this.price}&description=${this.description}&stock=${this.stock}`
       requestOptions = {
       method: 'PATCH',
       redirect: 'follow'}
-      fetch(endpoint, requestOptions)
+      await fetch(endpoint, requestOptions)
       .catch(error => console.log('error',error))
+      await console.log("edited", valid)
       }
-      window.location.reload()
+     
     
     },
+    validate(){
+      let valid = true 
+      // Fetch all the forms we want to apply custom Bootstrap validation styles to
+  var forms = document.querySelectorAll('.needs-validation')
+
+  // Loop over them and prevent submission
+  Array.prototype.slice.call(forms)
+    .forEach(function (form) {
+      form.addEventListener('submit', function (event) {
+        if (!form.checkValidity()) {
+          valid = false 
+          event.preventDefault()
+          event.stopPropagation()
+        }
+
+        form.classList.add('was-validated')
+      }, false)
+    })
+    return valid
+    }
   }
 };
 </script>
 <style>
 #edit{
   position: relative;
-  max-width: 50px;
+  max-width: 100px;
+  padding: 5px 15px 5px 12px;
+  margin: 10px;
 }
 
 .image-editbutton-container{

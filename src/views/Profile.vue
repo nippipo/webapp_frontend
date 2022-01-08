@@ -1,7 +1,7 @@
 <template>
   <div>
     <ul id="ulInProfile">
-      <li class="liInProfile" v-for="(product, i) in products" :key="i">
+      <li class="liInProfile border border-2" v-for="(product, i) in products" :key="i">
         <Edit
           :modalBody="modalBody"
           modalTitle="Edit"
@@ -126,6 +126,7 @@ export default {
 <style>
 #ulInProfile {
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
   align-items: center;
 }
@@ -133,9 +134,16 @@ export default {
 li.liInProfile {
   width: 500px !important;
   list-style-type: none;
+  padding: 20px;
+  margin: 20px;
+  background-color:rgb(226, 226, 226);
 }
 
 .carousel-indicators {
   flex-wrap: wrap;
+}
+
+#deleteButton{
+  margin-top: 5px
 }
 </style>
