@@ -117,17 +117,49 @@ export default {
         console.log(index)
         console.log(this.chosenProduct)
     },
-    getBackendUserId(){
-        fetch(process.env.VUE_APP_BACKEND_BASE_URL + `/api/user/mail/${this.claims.email}`)
+    addNewUser() {
+      const user = {
+        username: this.claims.name,
+        email: this.claims.email,
+      };
+      let endpoint = process.env.VUE_APP_BACKEND_BASE_URL + `/api/user`;
+      let requestOptions = {
+        method: "POST",
+        redirect: "follow",
+        headers: {
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify(user),
+      };
+      fetch(endpoint, requestOptions)
         .then((res) => res.json())
-        .then((result) => (this.userId = result.id));
-        console.log(this.userId)
-    }
+        .then((data) => (this.userId= data.id))
+        .catch((error) => console.error("Error", error));
+      console.log("was in new user here");
+    },
+
+    userExistedHandler() {
+      var endpoint =
+        process.env.VUE_APP_BACKEND_BASE_URL +
+        `/api/user/mail/${this.claims.email}`;
+      var requestOptions = {
+        method: "GET",
+        redirect: "follow",
+      };
+      fetch(endpoint, requestOptions)
+        .then((res) => res.json())
+        .then((jsonbody) => (this.userId = jsonbody.id))
+        .catch((error) => {
+          this.addNewUser();
+          window.alert("id not found");
+        });
+      console.log("was in user existed handler");
+    },
   },
   async mounted() {
     await this.authCheck();
     await this.setup();
-    await this.getBackendUserId();
+    await this.userExistedHandler();
   },
   components: {
       Edit

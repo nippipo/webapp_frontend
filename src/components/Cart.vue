@@ -5,12 +5,13 @@
         <div class="name">{{product.productsName}}</div>
         <div class="price">{{product.price}}</div>
         <!-- <div class="number"> {{product.count}} </div> -->
-        <button @click="removeProduct(i)" class="remove" > Remove </button>
+        <button @click="removeProduct(i)" class="remove btn btn-secondary" > Remove </button>
     </li>
 </ul>
 
-
+<h5 v-if="products.length!==0" class="sum">Total : {{sum}} Euro</h5>
 <button class="buyButton" v-if="products.length!==0" @click="buy">Buy</button></div>
+
 
 </template>
 <script>
@@ -22,7 +23,8 @@ export default {
           //from data this.something is referring to props
           //from out of data if this.nameInsideOfData referring to that object in data 
           //even if props variable and data variable have the same name
-          myProducts: this.products
+          myProducts: this.products,
+          sum: 0
       }
   },
   props:{
@@ -38,7 +40,16 @@ export default {
           this.$emit("cart:change", this.myProducts)
           console.log(this.myProducts)
       }
-    }
+   },
+   computed: {
+       sum: function(){
+           let sum = 0
+           for(let i = 0 ; i < this.myProducts.length ; i++){
+               sum += this.myProducts[i].price
+           }
+           return Math.round(sum * 100) / 100
+       }
+   }
 }
 </script>
 <style>
@@ -59,8 +70,12 @@ li.cart{
 ul.cart {
   padding: 0px;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-content: stretch
 }
-
+.remove{
+    padding: 0px 10px 0px 10px ;
+    margin-top: 7px; 
+}
 </style>

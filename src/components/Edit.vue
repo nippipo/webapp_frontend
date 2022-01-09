@@ -14,12 +14,12 @@
 
     <div class="image-editbutton-container">
       <img alt="Image of this product" :src="[pdimage]" />
-      <button class="btn btn-light" @click="edit" id="edit"><i class="bi bi-pencil-square"></i>  Edit</button>
+      <button class="btn btn-light" @click="edit" id="edit"><i class="bi bi-pencil"></i> Edit</button>
     </div>
 
     <div class="toggleEditBox" v-if="toggle">
       <form class="needs-validation" novalidate>
-        <div class="mb-3"> 
+        <div class="mb-3 "> 
           <label for="name">Change the product's name</label>
           <input v-model="name" type="text" id="name" name="name" required/>
             <div class="invalid-feedback">
@@ -37,7 +37,7 @@
         <label for="description">Change the product's description</label>
       <input v-model="description" type="text" id="description" name="description" />
       </div>
-      <div class="mb-3">
+      <div class="mb-3 ">
         <label for="stock">Change the product's stock number</label>
       <input v-model="stock" type="number" id="stock" name="stock" required/>
             <div class="invalid-feedback">
@@ -65,6 +65,7 @@
   </div>
 </div>
       </form>
+     <h5>{{errorMessage}}</h5> 
     </div>
 
 
@@ -77,6 +78,7 @@ export default {
   name: "ProductAdminsView",
   data: function(){
     return {
+      errorMessage: '',
       productIdBackend: 0,
       id: this.pdid,
       name: this.pdname,
@@ -105,8 +107,8 @@ export default {
       this.toggle = !this.toggle;
     },
     async submitChange(){
-      const valid = this.validate()
-      await console.log("validation", valid)
+      const valid = await this.validate()
+      console.log("validation", valid)
       //const valid = true
       if(this.postOrPut == 0 && valid) {
       const product = {
@@ -117,6 +119,7 @@ export default {
         description : this.description
       }
       //create product
+      var hasError = false
       var endpoint1=  process.env.VUE_APP_BACKEND_BASE_URL + `/api/product`
       var requestOptions1 = {
       method: 'POST',
@@ -126,9 +129,19 @@ export default {
         },
       body:JSON.stringify(product)
     }
-      await fetch(endpoint1, requestOptions1)
-      .then(res => res.json())
-      .then(result => {this.productIdBackend = result.id})
+      fetch(endpoint1, requestOptions1)
+      .then(res=>res.json())
+      .then(res => 
+      {
+        var errors = res.errors;
+        var message = ''
+        for(let i of errors){
+          message += i.field + ' ' + i.defaultMessage + '\n'
+        }
+        this.errorMessage = message
+      }
+      )
+      .then(res => this.productIdBackend = res.id)
       .catch(error => console.log('error',error))
 
       var endpoint = process.env.VUE_APP_BACKEND_BASE_URL + `/api/product/${this.productIdBackend}/${this.userId}`
@@ -136,26 +149,32 @@ export default {
         method: 'PUT',
         redirect: 'follow'
       }
-      await fetch(endpoint, requestOptions)
+      if(!this.errorMessage==="") fetch(endpoint, requestOptions)
+      .then(res => res.json())
       .catch(error => console.error('error', error))
-      await console.log("created", valid)
+      //first time db doesnt implement as expected
+      console.log(this.userId)
+      console.log(this.productIdBackend)
+      console.log("created", valid)
       }
      
       //update product
-      else if(this.postOrPut == 0 && valid){endpoint= process.env.VUE_APP_BACKEND_BASE_URL + `/api/product/${this.id}/?productsName=${this.name}&price=${this.price}&description=${this.description}&stock=${this.stock}`
+      else if(this.postOrPut == 1 && valid){endpoint= process.env.VUE_APP_BACKEND_BASE_URL + `/api/product/${this.id}/?productsName=${this.name}&price=${this.price}&description=${this.description}&stock=${this.stock}`
       requestOptions = {
       method: 'PATCH',
       redirect: 'follow'}
-      await fetch(endpoint, requestOptions)
+      fetch(endpoint, requestOptions)
+      .then(res => res.json())
+      .then(res => this.errorMessage = res.message)
       .catch(error => console.log('error',error))
-      await console.log("edited", valid)
+      console.log("edited", valid)
       }
      
     
     },
-    validate(){
-      let valid = true 
-      // Fetch all the forms we want to apply custom Bootstrap validation styles to
+  async validate(){
+  var valid = true 
+ // Fetch all the forms we want to apply custom Bootstrap validation styles to
   var forms = document.querySelectorAll('.needs-validation')
 
   // Loop over them and prevent submission
@@ -163,7 +182,6 @@ export default {
     .forEach(function (form) {
       form.addEventListener('submit', function (event) {
         if (!form.checkValidity()) {
-          valid = false 
           event.preventDefault()
           event.stopPropagation()
         }
@@ -171,7 +189,7 @@ export default {
         form.classList.add('was-validated')
       }, false)
     })
-    return valid
+    return valid;
     }
   }
 };
@@ -180,7 +198,7 @@ export default {
 #edit{
   position: relative;
   max-width: 100px;
-  padding: 5px 15px 5px 12px;
+  padding: 5px 12px 5px 12px;
   margin: 10px;
 }
 
