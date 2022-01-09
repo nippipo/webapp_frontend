@@ -25,7 +25,7 @@
         <ul id="ulInCarousel">
           <li class="carousel-item active">
             <div>
-              <img src="src\assets\logo.png" class="d-block w-100" alt="image" />
+              <img src="https://thumbs.dreamstime.com/z/ufo-aliens-doodles-collection-hand-drawn-s-planets-spacecrafts-132769389.jpg" class="d-block w-100" alt="image" />
               <div class="carousel-caption d-none d-md-block">
                 <h5>Start swiping to see more products</h5>
                 <p>

@@ -65,7 +65,7 @@
   </div>
 </div>
       </form>
-     <h5>{{errorMessage}}</h5> 
+     <h5 v-if="errorMessage!==''" class="alert alert-danger">{{errorMessage}}</h5> 
     </div>
 
 
@@ -119,7 +119,6 @@ export default {
         description : this.description
       }
       //create product
-      var hasError = false
       var endpoint1=  process.env.VUE_APP_BACKEND_BASE_URL + `/api/product`
       var requestOptions1 = {
       method: 'POST',
@@ -136,7 +135,7 @@ export default {
         var errors = res.errors;
         var message = ''
         for(let i of errors){
-          message += i.field + ' ' + i.defaultMessage + '\n'
+          message += i.field + ' ' + i.defaultMessage + ' '
         }
         this.errorMessage = message
       }
@@ -165,7 +164,14 @@ export default {
       redirect: 'follow'}
       fetch(endpoint, requestOptions)
       .then(res => res.json())
-      .then(res => this.errorMessage = res.message)
+      .then(res => {
+        var errors = res.errors;
+        var message = ''
+        for(let i of errors){
+          message += i.field + ' ' + i.defaultMessage 
+        }
+        this.errorMessage = message
+      })
       .catch(error => console.log('error',error))
       console.log("edited", valid)
       }
