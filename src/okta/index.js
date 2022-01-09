@@ -3,7 +3,7 @@ import { OktaAuth } from '@okta/okta-auth-js'
 
 const oktaSignIn = new OktaSignIn({
   baseUrl: 'https://dev-41050731.okta.com',
-  clientId: '0oa3isdt1r8NejjqM5d7',
+  clientId: '0oa3jllirhiYvPbui5d7',
   redirectUri:  process.env.VUE_APP_FRONTEND_BASE_URL + '/login/callback',
   registration: {
     parseSchema: function(schema, onSuccess, onFailure) {
@@ -32,7 +32,7 @@ const oktaSignIn = new OktaSignIn({
 
 const oktaAuth = new OktaAuth({
   issuer: 'https://dev-41050731.okta.com/oauth2/default',
-  clientId: '0oa3isdt1r8NejjqM5d7',
+  clientId: '0oa3jllirhiYvPbui5d7',
   redirectUri: window.location.origin + '/login/callback',
   scopes: ['openid', 'profile', 'email']
 })

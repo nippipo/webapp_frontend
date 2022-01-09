@@ -110,6 +110,7 @@ export default {
       var requestOptions = {
         method: "DELETE",
         redirect: "follow",
+        
       };
       fetch(endpoint, requestOptions)
         .then((res) => res.json())
