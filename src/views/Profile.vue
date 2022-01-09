@@ -3,6 +3,7 @@
     <ul id="ulInProfile">
       <li class="liInProfile border border-2" v-for="(product, i) in products" :key="i">
         <Edit
+          :userId ="user.id"
           :modalBody="modalBody"
           modalTitle="Edit"
           :postOrPut="postOrPut"
@@ -34,6 +35,7 @@ export default {
   name: "Profile",
   data: function () {
     return {
+      user: '',
       modalBody: "Are you sure?",
       postOrPut: 1,
       products: [],
@@ -68,6 +70,7 @@ export default {
         .then((data) => (this.user = data))
         .catch((error) => console.error("Error", error));
       console.log("was in new user here");
+      console.log(this.user)
     },
 
     userExistedHandler() {

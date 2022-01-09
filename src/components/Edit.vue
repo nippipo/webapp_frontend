@@ -59,7 +59,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button @click="submitChange" type="submit" class="btn btn-primary">Save changes</button>
+        <button @click="submitChange" type="button" class="btn btn-primary">Save changes</button>
       </div>
     </div>
   </div>
@@ -128,8 +128,9 @@ export default {
         },
       body:JSON.stringify(product)
     }
-      fetch(endpoint1, requestOptions1)
+      await fetch(endpoint1, requestOptions1)
       .then(res=>res.json())
+      .then(res => this.productIdBackend = res.id)
       .then(res => 
       {
         var errors = res.errors;
@@ -140,15 +141,14 @@ export default {
         this.errorMessage = message
       }
       )
-      .then(res => this.productIdBackend = res.id)
       .catch(error => console.log('error',error))
-
+      console.log(this.productIdBackend)
       var endpoint = process.env.VUE_APP_BACKEND_BASE_URL + `/api/product/${this.productIdBackend}/${this.userId}`
       var requestOptions= {
         method: 'PUT',
         redirect: 'follow'
       }
-      if(!this.errorMessage==="") fetch(endpoint, requestOptions)
+      await fetch(endpoint, requestOptions)
       .then(res => res.json())
       .catch(error => console.error('error', error))
       //first time db doesnt implement as expected
@@ -162,7 +162,7 @@ export default {
       requestOptions = {
       method: 'PATCH',
       redirect: 'follow'}
-      fetch(endpoint, requestOptions)
+      await fetch(endpoint, requestOptions)
       .then(res => res.json())
       .then(res => {
         var errors = res.errors;
