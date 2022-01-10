@@ -162,9 +162,9 @@ export default {
     await this.userExistedHandler();
   },
     async activated(){
+    await this.authCheck();
     await this.setup();
     await this.userExistedHandler();
-    await this.getUserProducts();
   },
   components: {
       Edit
