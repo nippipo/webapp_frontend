@@ -161,6 +161,11 @@ export default {
     await this.setup();
     await this.userExistedHandler();
   },
+    async activated(){
+    await this.setup();
+    await this.userExistedHandler();
+    await this.getUserProducts();
+  },
   components: {
       Edit
   }
