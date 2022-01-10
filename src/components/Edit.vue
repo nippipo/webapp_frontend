@@ -78,6 +78,7 @@ export default {
   name: "ProductAdminsView",
   data: function(){
     return {
+      resOk: false,
       errorMessage: '',
       productIdBackend: 0,
       id: this.pdid,
@@ -91,6 +92,7 @@ export default {
   },
   props: {
     userId: Number,
+   
     //equal to 0 is post, equal to 1 is put
     postOrPut: Number,
     modalTitle: String,
@@ -129,16 +131,21 @@ export default {
       body:JSON.stringify(product)
     }
       await fetch(endpoint1, requestOptions1)
+      .then(res => {this.resOk = res.ok; return res})
       .then(res=>res.json())
-      .then(res => this.productIdBackend = res.id)
       .then(res => 
       {
+        console.log("resokay",this.resOk)
+        if(this.resOk) { this.productIdBackend = res.id}
+        else {
         var errors = res.errors;
         var message = ''
         for(let i of errors){
           message += i.field + ' ' + i.defaultMessage + ' '
         }
         this.errorMessage = message
+        console.log("was here")
+      }
       }
       )
       .catch(error => console.log('error',error))
@@ -171,6 +178,7 @@ export default {
           message += i.field + ' ' + i.defaultMessage 
         }
         this.errorMessage = message
+        return res
       })
       .catch(error => console.log('error',error))
       console.log("edited", valid)
