@@ -47,6 +47,10 @@ export default {
     await this.userExistedHandler();
     await this.getUserProducts();
   },
+  async activated(){
+    await this.setup();
+    await this.getUserProducts();
+  },
   methods: {
     async setup() {
       if (this.$root.authenticated) this.claims = await this.$auth.getUser();
