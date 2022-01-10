@@ -68,6 +68,7 @@ li.cart{
     align-items: center;
 }
 ul.cart {
+  width: 100%;
   padding: 0px;
   display: flex;
   flex-direction: column;
